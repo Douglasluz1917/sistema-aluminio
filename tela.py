@@ -115,13 +115,13 @@ with col1:
             "Valor (R$)": round(valor_final, 2)
         }
 
-st.session_state["carrinho"].append(item)
-st.rerun() #
+        st.session_state["carrinho"].append(item)
+        st.rerun() #
 with col2:
     st.write("### 🛒 Itens no Orçamento")
     
     if len(st.session_state["carrinho"]) > 0:
-     st.dataframe(st.session_state["carrinho"], use_container_width=True) 
+        st.dataframe(st.session_state["carrinho"], use_container_width=True) 
         
     peso_pedido = sum(linha["Peso (kg)"] for linha in st.session_state["carrinho"])
     valor_pedido = sum(linha["Valor (R$)"] for linha in st.session_state["carrinho"])
