@@ -121,14 +121,14 @@ with col2:
     st.write("### 🛒 Itens no Orçamento")
     
     if len(st.session_state["carrinho"]) > 0:
-        st.dataframe(st.session_state["carrinho"], use_container_width=True) 
+     st.dataframe(st.session_state["carrinho"], use_container_width=True) 
         
-        peso_pedido = sum(linha["Peso (kg)"] for linha in st.session_state["carrinho"])
-        valor_pedido = sum(linha["Valor (R$)"] for linha in st.session_state["carrinho"])
+    peso_pedido = sum(linha["Peso (kg)"] for linha in st.session_state["carrinho"])
+    valor_pedido = sum(linha["Valor (R$)"] for linha in st.session_state["carrinho"])
         
-        st.info(f"**PESO TOTAL:** {peso_pedido:.3f} kg")
-        st.success(f"**VALOR TOTAL DO PEDIDO: R$ {valor_pedido:.2f}**")
+    st.info(f"**PESO TOTAL:** {peso_pedido:.3f} kg")
+    st.success(f"**VALOR TOTAL DO PEDIDO: R$ {valor_pedido:.2f}**")
         
-        if st.button("Limpar Carrinho"):
-            st.session_state["carrinho"].clear()
-            st.rerun()
+    if st.button("Limpar Carrinho"):
+        st.session_state["carrinho"].clear()
+        st.rerun()
