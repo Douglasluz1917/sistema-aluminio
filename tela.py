@@ -132,9 +132,9 @@ with col2:
     texto_whatsapp = "*Orçamento - AF Alumínio* 🛒\n\n"
         
     for item in st.session_state["carrinho"]:
-            texto_whatsapp += f"▪️ {item['Perfil']} ({item['Cor']}) - {item['Metros']}m: *R$ {item['Valor (R$)']}*\n"
+       texto_whatsapp += f"▪️ {item['Perfil']} ({item['Cor']}) - {item['Metros']}m\n"
             
-    texto_whatsapp += f"\n*Valor Final: R$ {valor_pedido:.2f}*"
+    texto_whatsapp += f"\n*Valor Total: R$ {valor_pedido:.2f}*"
     texto_codificado = urllib.parse.quote(texto_whatsapp)
     link = f"https://wa.me/?text={texto_codificado}"
     st.markdown(f"**[📱 Enviar Orçamento pelo WhatsApp]({link})**")
