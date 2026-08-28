@@ -83,50 +83,51 @@ estoque_perfis = {
         "AL 068": 0.800/6,   
         }
 
-perfil = st.selectbox("Escolha o Perfil:", list(estoque_perfis.keys()))
+col1, col2 = st.columns([1, 1.5])
 
-peso_metro = estoque_perfis[perfil]
-
-
-cor = st.selectbox("Escolha a Cor:", ["Branco", "Fosco", "Preto", "Bronze"]) 
-preco_kg = 0   
-
-if cor == "Branco":
+with col1:
+    perfil = st.selectbox("Escolha o Perfil:", list(estoque_perfis.keys()))
+    peso_metro = estoque_perfis[perfil]
+    
+    cor = st.selectbox("Escolha a Cor:", ["Branco", "Fosco", "Preto", "Bronze"])
+    preco_kg = 0
+    
+    if cor == "Branco":
         preco_kg = 45
-elif cor == "Fosco":
-    preco_kg = 45
-elif cor == "Preto":
-    preco_kg = 50
-elif cor == "Bronze":
-    preco_kg = 50   
-metros = st.number_input("quantos metros o cliente vai querer?", min_value=0.0)
-
-if st.button("Adicionar ao Orçamento"):
-    peso_total = metros * peso_metro
-    valor_final = peso_total * preco_kg
+    elif cor == "Fosco":
+        preco_kg = 45
+    elif cor == "Preto":
+        preco_kg = 45
+    elif cor == "Bronze":
+        preco_kg = 50
+        
+    metros = st.number_input("Quantos metros o cliente vai querer?", min_value=0.0)
     
-    item = {
-        "Perfil": perfil,
-        "Cor": cor,
-        "Metros": metros,
-        "Peso (kg)": round(peso_total, 3),
-        "Valor (R$)": round(valor_final, 2)
-    }
-    st.session_state["carrinho"].append(item)
-    st.success("Item adicionado com sucesso!")
-
-st.write("---") 
-st.write("**🛒 Itens no Orçamento:**")
-
-if len(st.session_state["carrinho"]) > 0:
-    st.table(st.session_state["carrinho"])
+    if st.button("Adicionar ao Orçamento"):
+        peso_total = metros * peso_metro
+        valor_final = peso_total * preco_kg
+        
+        item = {
+            "Perfil": perfil,
+            "Cor": cor,
+            "Metros": metros,
+            "Peso (kg)": round(peso_total, 3),
+            "Valor (R$)": round(valor_final, 2)
+        }
+        st.session_state["carrinho"].append(item)
+        st.rerun() #
+        with col2:
+    st.write("### 🛒 Itens no Orçamento")
     
-    peso_pedido = sum(linha["Peso (kg)"] for linha in st.session_state["carrinho"])
-    valor_pedido = sum(linha["Valor (R$)"] for linha in st.session_state["carrinho"])
-    
-    st.info(f"**PESO TOTAL:** {peso_pedido:.3f} kg")
-    st.success(f"**VALOR TOTAL DO PEDIDO: R$ {valor_pedido:.2f}**")
-    
-    if st.button("Limpar Carrinho"):
-        st.session_state["carrinho"].clear()
-        st.rerun()
+    if len(st.session_state["carrinho"]) > 0:
+        st.dataframe(st.session_state["carrinho"], use_container_width=True) 
+        
+        peso_pedido = sum(linha["Peso (kg)"] for linha in st.session_state["carrinho"])
+        valor_pedido = sum(linha["Valor (R$)"] for linha in st.session_state["carrinho"])
+        
+        st.info(f"**PESO TOTAL:** {peso_pedido:.3f} kg")
+        st.success(f"**VALOR TOTAL DO PEDIDO: R$ {valor_pedido:.2f}**")
+        
+        if st.button("Limpar Carrinho"):
+            st.session_state["carrinho"].clear()
+            st.rerun()
