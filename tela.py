@@ -114,9 +114,10 @@ with col1:
             "Peso (kg)": round(peso_total, 3),
             "Valor (R$)": round(valor_final, 2)
         }
-        st.session_state["carrinho"].append(item)
-        st.rerun() #
-        with col2:
+
+st.session_state["carrinho"].append(item)
+st.rerun() #
+with col2:
     st.write("### 🛒 Itens no Orçamento")
     
     if len(st.session_state["carrinho"]) > 0:
