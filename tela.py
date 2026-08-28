@@ -1,5 +1,7 @@
 import streamlit as st
 st.image("logo.png", width=200)
+if "carrinho" not in st.session_state:
+ st.session_state["carrinho"] = []
 st.title("Sistema de Orçamento - Alumínio")
 st.write("---")
 estoque_perfis = {       
@@ -99,9 +101,32 @@ elif cor == "Bronze":
     preco_kg = 50   
 metros = st.number_input("quantos metros o cliente vai querer?", min_value=0.0)
 
-if st.button("Gerar Orçamento"):
+if st.button("Adicionar ao Orçamento"):
     peso_total = metros * peso_metro
     valor_final = peso_total * preco_kg
-    st.success(f"Peso total: {peso_total:.3f} kg")
-    st.success(f"Valor desta peça: R$ {valor_final:.2f}")
     
+    item = {
+        "Perfil": perfil,
+        "Cor": cor,
+        "Metros": metros,
+        "Peso (kg)": round(peso_total, 3),
+        "Valor (R$)": round(valor_final, 2)
+    }
+    st.session_state["carrinho"].append(item)
+    st.success("Item adicionado com sucesso!")
+
+st.write("---") 
+st.write("**🛒 Itens no Orçamento:**")
+
+if len(st.session_state["carrinho"]) > 0:
+    st.table(st.session_state["carrinho"])
+    
+    peso_pedido = sum(linha["Peso (kg)"] for linha in st.session_state["carrinho"])
+    valor_pedido = sum(linha["Valor (R$)"] for linha in st.session_state["carrinho"])
+    
+    st.info(f"**PESO TOTAL:** {peso_pedido:.3f} kg")
+    st.success(f"**VALOR TOTAL DO PEDIDO: R$ {valor_pedido:.2f}**")
+    
+    if st.button("Limpar Carrinho"):
+        st.session_state["carrinho"].clear()
+        st.rerun()
