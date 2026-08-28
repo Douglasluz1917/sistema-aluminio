@@ -132,13 +132,12 @@ with col2:
     texto_whatsapp = "*Orçamento - AF Alumínio* 🛒\n\n"
         
     for item in st.session_state["carrinho"]:
-        texto_whatsapp += f"▪️ {item['Perfil']} ({item['Cor']}) - {item['Metros']}m: *R$ {item['Valor (R$)']}*\n"
+            texto_whatsapp += f"▪️ {item['Perfil']} ({item['Cor']}) - {item['Metros']}m: *R$ {item['Valor (R$)']}*\n"
             
-        texto_whatsapp += f"\n*Peso Total:* {peso_pedido:.3f} kg"
-        texto_whatsapp += f"\n*Valor Final: R$ {valor_pedido:.2f}*"
-        texto_codificado = urllib.parse.quote(texto_whatsapp)
-        link = f"https://wa.me/?text={texto_codificado}"
-        st.markdown(f"**[📱 Enviar Orçamento pelo WhatsApp]({link})**")
+    texto_whatsapp += f"\n*Valor Final: R$ {valor_pedido:.2f}*"
+    texto_codificado = urllib.parse.quote(texto_whatsapp)
+    link = f"https://wa.me/?text={texto_codificado}"
+    st.markdown(f"**[📱 Enviar Orçamento pelo WhatsApp]({link})**")
         
     if st.button("Limpar Carrinho"):
         st.session_state["carrinho"].clear()
