@@ -103,7 +103,7 @@ with col1:
     elif cor == "Fosco":
         preco_kg = 45
     elif cor == "Preto":
-        preco_kg = 45
+        preco_kg = 50
     elif cor == "Bronze":
         preco_kg = 50
         
