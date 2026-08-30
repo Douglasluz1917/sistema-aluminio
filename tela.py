@@ -416,18 +416,16 @@ with col2:
                 if st.button("❌", key=f"remover_{i}"):
                     st.session_state["carrinho"].pop(i)
                     st.rerun()
-
-                    st.write("---") 
-                    
-                    col_btn1, col_btn2 = st.columns(2)
+st.write("") 
     
-
-    with col_btn1:
+col_btn1, col_btn2 = st.columns(2)
+    
+with col_btn1:
         if st.button("🗑️ Limpar Tudo", use_container_width=True):
             st.session_state["carrinho"] = []
             st.rerun()
             
-    with col_btn2:
+with col_btn2:
         pdf_pronto = criar_pdf(st.session_state["carrinho"], valor_pedido)
         st.download_button(
             label="🖨️ Imprimir PDF", 
@@ -435,31 +433,34 @@ with col2:
             file_name="Orcamento.pdf", 
             mime="application/pdf", 
             use_container_width=True
-        )
+        )                   
+
+ 
         
-    peso_pedido = sum(linha["Peso (kg)"] for linha in st.session_state["carrinho"])
-    valor_pedido = sum(linha["Valor (R$)"] for linha in st.session_state["carrinho"])
         
-    st.info(f"**PESO TOTAL:** {peso_pedido:.3f} kg")
-    st.success(f"**VALOR TOTAL DO PEDIDO: R$ {valor_pedido:.2f}**")
-    texto_whatsapp = "*Orçamento - AF Alumínio* 🛒\n\n"
+peso_pedido = sum(linha["Peso (kg)"] for linha in st.session_state["carrinho"])
+valor_pedido = sum(linha["Valor (R$)"] for linha in st.session_state["carrinho"])
         
-    for item in st.session_state["carrinho"]:
+st.info(f"**PESO TOTAL:** {peso_pedido:.3f} kg")
+st.success(f"**VALOR TOTAL DO PEDIDO: R$ {valor_pedido:.2f}**")
+texto_whatsapp = "*Orçamento - AF Alumínio* 🛒\n\n"
+        
+for item in st.session_state["carrinho"]:
        texto_whatsapp += f"▪️ {item['Perfil']} ({item['Cor']}) - {item['Metros']}m\n"
             
-    texto_whatsapp += f"\n*Valor Total: R$ {valor_pedido:.2f}*"
-    texto_codificado = urllib.parse.quote(texto_whatsapp)
-    link = f"https://wa.me/?text={texto_codificado}"
-    st.markdown(f"**[📱 Enviar Orçamento pelo WhatsApp]({link})**")
-    pdf_pronto = criar_pdf(st.session_state["carrinho"], valor_pedido)
+texto_whatsapp += f"\n*Valor Total: R$ {valor_pedido:.2f}*"
+texto_codificado = urllib.parse.quote(texto_whatsapp)
+link = f"https://wa.me/?text={texto_codificado}"
+st.markdown(f"**[📱 Enviar Orçamento pelo WhatsApp]({link})**")
+pdf_pronto = criar_pdf(st.session_state["carrinho"], valor_pedido)
         
-    st.download_button(
+st.download_button(
             label="🖨️ Imprimir Orçamento (PDF)",
             data=pdf_pronto,
             file_name="Orcamento_Cliente.pdf",
             mime="application/pdf"
         )
         
-    if st.button("Limpar Carrinho"):
+if st.button("Limpar Carrinho"):
         st.session_state["carrinho"].clear()
         st.rerun()
