@@ -99,11 +99,12 @@ estoque_perfis = {
 col1, col2 = st.columns([1, 1.5])
 
 with col1:
-    tipo_venda = st.radio("Tipo de Produto:", ["Perfis (Por Peso)", "Cantoneiras (Por Peça)"], horizontal=True) 
+    tipo_venda = st.radio("Tipo de Produto:", ["Perfis (Por Peso)", "Cantoneiras (Por Peça)"], horizontal=True)
     if tipo_venda == "Perfis (Por Peso)":
         perfil = st.selectbox("Escolha o Perfil:", list(estoque_perfis.keys()))
         cor = st.selectbox("Escolha a Cor:", ["Branco", "Fosco", "Preto", "Bronze"])
         metros = st.number_input("Quantos metros o cliente vai querer?", min_value=0.0)
+        
         if st.button("Adicionar ao Orçamento", key="btn_perfil"):
             peso_metro = estoque_perfis[perfil]
             preco_kg = 50 if cor == "Bronze" else 45
@@ -119,8 +120,8 @@ with col1:
             st.session_state["carrinho"].append(item)
             st.rerun()
         elif tipo_venda == "Cantoneiras (Por Peça)":
-         cantoneira = st.selectbox("Escolha a Cantoneira:", list(estoque_cantoneiras.keys()))
-         cor_cant = st.selectbox("Escolha a Cor:", ["Branco", "Fosco", "Preto", "Bronze"], key="cor_cantoneira")
+            cantoneira = st.selectbox("Escolha a Cantoneira:", list(estoque_cantoneiras.keys()))
+        cor_cant = st.selectbox("Escolha a Cor:", ["Branco", "Fosco", "Preto", "Bronze"], key="cor_cantoneira")
         tamanho_corte = st.selectbox("Tamanho da peça (metros):", [6, 4, 3, 2])
         
         if tamanho_corte == 6:
@@ -144,8 +145,8 @@ with col1:
             }
             st.session_state["carrinho"].append(item)
             st.rerun()
-            st.session_state["carrinho"].append(item)
-            st.rerun()
+
+   
 
 with col2:
     st.write("### 🛒 Itens no Orçamento")
