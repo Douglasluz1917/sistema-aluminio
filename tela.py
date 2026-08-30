@@ -3,6 +3,9 @@ import urllib.parse
 from fpdf import FPDF
 from datetime import datetime
 import os
+
+st.set_page_config(page_title="Orçamento AF Alumínio", layout="wide")
+
 def criar_pdf(carrinho, valor_total):
     pdf = FPDF()
     pdf.add_page()
