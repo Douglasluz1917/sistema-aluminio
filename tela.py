@@ -5,7 +5,7 @@ if "carrinho" not in st.session_state:
  st.session_state["carrinho"] = []
 st.title("Sistema de Orçamento - Alumínio")
 st.write("---")
-estoque_cantoneiras = {
+estoque_pecas= {
     "CT 002 L.1/2": 25.00,
     "CT 008 L.3/4": 35.00,
     "CT 017 L.1'": 45.00,
@@ -100,7 +100,8 @@ col1, col2 = st.columns([1, 1.5])
 
 with col1:
     with col1:
-        tipo_venda = st.radio("Tipo de Produto:", ["Perfis (Por Peso)", "Cantoneiras (Por Peça)"], horizontal=True)
+    with col1:
+    tipo_venda = st.radio("Tipo de Produto:", ["Perfis (Por Peso)", "Produtos por Peça (Cantoneiras, VZ)"], horizontal=True)
     
     if tipo_venda == "Perfis (Por Peso)":
         perfil = st.selectbox("Escolha o Perfil:", list(estoque_perfis.keys()))
@@ -109,7 +110,14 @@ with col1:
         
         if st.button("Adicionar ao Orçamento", key="btn_perfil"):
             peso_metro = estoque_perfis[perfil]
-            preco_kg = 50 if cor == "Bronze" else 50
+            
+        
+            if cor == "Preto" or cor == "Bronze":
+                preco_kg = 50.00
+            else:
+                preco_kg = 45.00
+            # ---------------------------------
+            
             peso_total = metros * peso_metro
             
             item = {
@@ -122,9 +130,9 @@ with col1:
             st.session_state["carrinho"].append(item)
             st.rerun()
             
-    elif tipo_venda == "Cantoneiras (Por Peça)":
-        cantoneira = st.selectbox("Escolha a Cantoneira:", list(estoque_cantoneiras.keys()))
-        cor_cant = st.selectbox("Escolha a Cor:", ["Branco", "Fosco", "Preto", "Bronze"], key="cor_cantoneira")
+    elif tipo_venda == "Produtos por Peça (Cantoneiras, VZ)":
+        produto_peca = st.selectbox("Escolha o Produto:", list(estoque_pecas.keys()))
+        cor_peca = st.selectbox("Escolha a Cor:", ["Branco", "Fosco", "Preto", "Bronze"], key="cor_peca")
         tamanho_corte = st.selectbox("Tamanho da peça (metros):", [6, 4, 3, 2])
         
         if tamanho_corte == 6:
@@ -133,15 +141,15 @@ with col1:
             qtd_pecas = 1
             st.info(f"Venda de 1 unidade do corte de {tamanho_corte}m.")
         
-        if st.button("Adicionar Cantoneira", key="btn_cantoneira"):
-            preco_6m = estoque_cantoneiras[cantoneira]
+        if st.button("Adicionar Produto", key="btn_peca"):
+            preco_6m = estoque_pecas[produto_peca]
             preco_proporcional = (preco_6m / 6) * tamanho_corte
             
             texto_medida = f"{qtd_pecas} barra(s) de 6m" if tamanho_corte == 6 else f"1 pedaço de {tamanho_corte}m"
             
             item = {
-                "Perfil": cantoneira,
-                "Cor": cor_cant,
+                "Perfil": produto_peca, 
+                "Cor": cor_peca,
                 "Metros": texto_medida, 
                 "Peso (kg)": 0.0, 
                 "Valor (R$)": round(qtd_pecas * preco_proporcional, 2)
