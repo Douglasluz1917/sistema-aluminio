@@ -129,9 +129,9 @@ with col1:
             qtd_pecas = 1
             st.info(f"Venda de 1 unidade do corte de {tamanho_corte}m.")
             if st.button("Adicionar Cantoneira"):
-             preco_6m = estoque_cantoneiras[cantoneira]
-            preco_proporcional = (preco_6m / 6) * tamanho_corte
-            texto_medida = f"{qtd_pecas} barra(s) de 6m" if tamanho_corte == 6 else f"1 pedaço de {tamanho_corte}m"
+               preco_6m = estoque_cantoneiras[cantoneira]
+               preco_proporcional = (preco_6m / 6) * tamanho_corte
+               texto_medida = f"{qtd_pecas} barra(s) de 6m" if tamanho_corte == 6 else f"1 pedaço de {tamanho_corte}m"
             
             item = {
                 "Perfil": cantoneira,
