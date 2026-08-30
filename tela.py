@@ -5,14 +5,14 @@ from datetime import datetime
 import os
 
 st.set_page_config(page_title="Orçamento AF Alumínio", layout="wide")
-st.markdown("""
-    <style>
-        .block-container {
-            padding-top: 1rem;
-            padding-bottom: 0rem;
-        }
-    </style>
-""", unsafe_allow_html=True)
+st.markdown (col_logo, col_titulo = st.columns([1, 8])
+      with col_logo:
+      if os.path.exists("logo.png"):
+        st.image("logo.png", width=80)
+
+with col_titulo:
+    st.title("Orçamentos - AF Alumínio")
+
 
 def criar_pdf(carrinho, valor_total):
     pdf = FPDF()
@@ -439,15 +439,20 @@ elif tipo_venda == "Rebites (Por Cento)":
 
 
 with col2:
-    st.write("### 🛒 Itens no Orçamento")
+    st.header("🛒 Orçamento Atual")
+    caixa_carrinho = st.container(height=350)
+
     
-    if len(st.session_state["carrinho"]) > 0:
-        c_header1, c_header2, c_header3, c_header4 = st.columns([3, 2, 2, 1])
-        with c_header1: st.write("**Produto**")
-        with c_header2: st.write("**Medida**")
-        with c_header3: st.write("**Valor**")
-        with c_header4: st.write("**Ação**")
-        st.write("---")
+    with caixa_carrinho:
+        if len(st.session_state["carrinho"]) == 0:
+            st.info("Nenhum item adicionado ainda.")
+        else:
+            for i, item in enumerate(st.session_state["carrinho"]):
+            st.write(f"**{item['Perfil']}** ({item['Cor']}) | {item['Metros']}")
+                st.write(f"R$ {item['Valor (R$)']:.2f}")
+                st.divider()
+                st.subheader(f"Total: R$ {valor_pedido:.2f}")
+                
         for i, item in enumerate(st.session_state["carrinho"]):
             c1, c2, c3, c4 = st.columns([3, 2, 2, 1])
             
