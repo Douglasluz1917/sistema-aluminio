@@ -4,7 +4,7 @@ from fpdf import FPDF
 from datetime import datetime
 import os
 
-# --- CONFIGURAÇÃO DA PÁGINA ---
+
 st.set_page_config(page_title="Orçamento AF Alumínio", layout="wide", initial_sidebar_state="expanded")
 st.markdown("""
     <style>
@@ -12,7 +12,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# --- FUNÇÃO DO PDF (COM ACENTOS) ---
+
 def criar_pdf(carrinho, valor_total):
     pdf = FPDF()
     pdf.add_page()
@@ -294,17 +294,17 @@ estoque_perfis = {
 
         
          }
-# --- INICIALIZAÇÃO DO CARRINHO ---
+
 if "carrinho" not in st.session_state:
     st.session_state["carrinho"] = []
 
-# --- BARRA LATERAL: CARRINHO E FECHAMENTO ---
+
 with st.sidebar:
     st.header("🛒 Orçamento Atual")
     valor_pedido = sum(item.get("Valor (R$)", 0.0) for item in st.session_state["carrinho"])
     st.markdown(f"<h3 style='color: #2e7d32; margin-top: 0;'>Total: R$ {valor_pedido:.2f}</h3>", unsafe_allow_html=True)
     
-    # Carrinho com visual clean
+   
     if len(st.session_state["carrinho"]) == 0:
         st.info("Nenhum item adicionado.")
     else:
@@ -321,14 +321,14 @@ with st.sidebar:
 
     st.write("")
     
-    # --- TEXTO DO WHATSAPP ---
+    
     texto_whatsapp = f"*ORÇAMENTO - AF ALUMÍNIO*\n\n"
     for item in st.session_state["carrinho"]:
         texto_whatsapp += f"▪️ {item.get('Perfil', '')} ({item.get('Cor', '')}) - {item.get('Metros', '')}\n"
     texto_whatsapp += f"\n*TOTAL: R$ {valor_pedido:.2f}*"
     link_whats = f"https://wa.me/?text={urllib.parse.quote(texto_whatsapp)}"
     
-    # --- BOTÕES FINAIS (3 COLUNAS) ---
+    
     col_b1, col_b2, col_b3 = st.columns(3)
     
     with col_b1:
@@ -341,14 +341,14 @@ with st.sidebar:
         st.download_button("🖨️ PDF", data=pdf_pronto, file_name="Orcamento.pdf", mime="application/pdf", use_container_width=True)
         
     with col_b3:
-        # Botão do Whats desenhado para ficar exatamente do tamanho dos outros
+        
         st.markdown(f"""
             <a href="{link_whats}" target="_blank" style="display: flex; align-items: center; justify-content: center; background-color: #25D366; color: white; height: 38px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 500;">
                 📱 Whats
             </a>
         """, unsafe_allow_html=True)
 
-# --- TELA PRINCIPAL: LANÇAMENTO DE PRODUTOS ---
+
 col_logo, col_titulo = st.columns([1, 6])
 with col_logo:
     if os.path.exists("logo.png"):
