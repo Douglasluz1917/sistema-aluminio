@@ -3,6 +3,7 @@ import urllib.parse
 from fpdf import FPDF
 from datetime import datetime
 import os
+
 st.set_page_config(page_title="Orçamento AF Alumínio", layout="wide", initial_sidebar_state="expanded")
 st.markdown("""
     <style>
@@ -323,7 +324,7 @@ with st.sidebar:
     texto_whatsapp += f"\n*TOTAL: R$ {valor_pedido:.2f}*"
     link_whats = f"https://wa.me/?text={urllib.parse.quote(texto_whatsapp)}"
     
-    
+    # --- BOTÕES FINAIS ---
     st.markdown(f"""
         <a href="{link_whats}" target="_blank" style="display: block; text-align: center; background-color: #25D366; color: white; padding: 10px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-bottom: 12px;">
             📱 Enviar por WhatsApp
@@ -338,6 +339,7 @@ with st.sidebar:
     with col_b2:
         pdf_pronto = criar_pdf(st.session_state["carrinho"], valor_pedido)
         st.download_button("🖨️ Imprimir PDF", data=pdf_pronto, file_name="Orcamento.pdf", mime="application/pdf", use_container_width=True)
+col_logo, col_titulo = st.columns([1, 10])
 with col_logo:
     if os.path.exists("logo.png"):
         st.image("logo.png", width=70)
@@ -411,4 +413,3 @@ elif tipo_venda == "Rebites (Cento)":
     if st.button("Adicionar Rebites", type="primary"):
         st.session_state["carrinho"].append({"Perfil": rebite, "Cor": cor_rebite, "Metros": f"{qtd_rebites} un", "Valor (R$)": round((qtd_rebites / 100) * estoque_rebites[rebite], 2)})
         st.rerun()
-
