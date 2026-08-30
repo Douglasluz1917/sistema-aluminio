@@ -123,28 +123,28 @@ with col1:
             cantoneira = st.selectbox("Escolha a Cantoneira:", list(estoque_cantoneiras.keys()))
             cor_cant = st.selectbox("Escolha a Cor:", ["Branco", "Fosco", "Preto", "Bronze"], key="cor_cantoneira")
             tamanho_corte = st.selectbox("Tamanho da peça (metros):", [6, 4, 3, 2])
-        
-        if tamanho_corte == 6:
-            qtd_pecas = st.number_input("Quantidade de barras (6m):", min_value=1, step=1)
-        else:
-            qtd_pecas = 1
-            st.info(f"Venda de 1 unidade do corte de {tamanho_corte}m.")
-        
-        if st.button("Adicionar Cantoneira", key="btn_cantoneira"):
-            preco_6m = estoque_cantoneiras[cantoneira]
-            preco_proporcional = (preco_6m / 6) * tamanho_corte
             
-            texto_medida = f"{qtd_pecas} barra(s) de 6m" if tamanho_corte == 6 else f"1 pedaço de {tamanho_corte}m"
+            if tamanho_corte == 6:
+                qtd_pecas = st.number_input("Quantidade de barras (6m):", min_value=1, step=1)
+            else:
+                qtd_pecas = 1
+                st.info(f"Venda de 1 unidade do corte de {tamanho_corte}m.")
             
-            item = {
-                "Perfil": cantoneira,
-                "Cor": cor_cant,
-                "Metros": texto_medida, 
-                "Peso (kg)": 0.0, 
-                "Valor (R$)": round(qtd_pecas * preco_proporcional, 2)
-            }
-            st.session_state["carrinho"].append(item)
-            st.rerun()
+            if st.button("Adicionar Cantoneira", key="btn_cantoneira"):
+                preco_6m = estoque_cantoneiras[cantoneira]
+                preco_proporcional = (preco_6m / 6) * tamanho_corte
+                
+                texto_medida = f"{qtd_pecas} barra(s) de 6m" if tamanho_corte == 6 else f"1 pedaço de {tamanho_corte}m"
+                
+                item = {
+                    "Perfil": cantoneira,
+                    "Cor": cor_cant,
+                    "Metros": texto_medida, 
+                    "Peso (kg)": 0.0, 
+                    "Valor (R$)": round(qtd_pecas * preco_proporcional, 2)
+                }
+                st.session_state["carrinho"].append(item)
+                st.rerun()
 
    
 
