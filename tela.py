@@ -6,49 +6,54 @@ import os
 def criar_pdf(carrinho, valor_total):
     pdf = FPDF()
     pdf.add_page()
+    
     if os.path.exists("logo.png"):
         pdf.image("logo.png", x=10, y=8, w=35)
-        pdf.set_font("Arial", 'B', 18)
-        pdf.cell(40) 
-    pdf.cell(0, 10, "ORCAMENTO - AF ALUMINIO", ln=True, align='L')
+        
+    
+    pdf.set_font("Arial", 'B', 18)
+    pdf.cell(40) 
+
+    pdf.cell(0, 10, "ORÇAMENTO - AF ALUMÍNIO", ln=True, align='L')
+    
     data_atual = datetime.now().strftime("%d/%m/%Y")
     pdf.set_font("Arial", 'I', 11)
     pdf.cell(40)
     pdf.cell(0, 5, f"Data do Pedido: {data_atual}", ln=True, align='L')
-    pdf.ln(15) 
+    pdf.ln(15)
+    
     pdf.set_draw_color(180, 180, 180)
     pdf.line(10, pdf.get_y(), 200, pdf.get_y())
     pdf.ln(8)
+    
     pdf.set_font("Arial", 'B', 12)
-    pdf.cell(140, 8, "Descricao do Produto")
+    pdf.cell(140, 8, "Descrição do Produto")
     pdf.cell(50, 8, "Subtotal", ln=True, align='R')
     pdf.ln(2)
-
-    pdf.set_font("Arial", 'B', 16)
-    pdf.cell(0, 10, "Orçamento - AF Aluminio", ln=True, align='C')
-    pdf.ln(10)
-    pdf.set_font("Arial", '', 11)
+    
     pdf.set_font("Arial", '', 11)
     for i, item in enumerate(carrinho, 1):
         nome = item.get("Perfil", "Produto")
         cor = item.get("Cor", "-")
         medida = str(item.get("Metros", "")) 
         valor = item.get("Valor (R$)", 0)
+        
         descricao = f"{i}. {nome} ({cor}) | {medida}"
+        
         pdf.cell(140, 8, descricao, border=0)
         pdf.cell(50, 8, f"R$ {valor:.2f}", border=0, ln=True, align='R')
-        pdf.ln(5)
-    pdf.line(10, pdf.get_y(), 200, pdf.get_y())
-    pdf.ln(8)
+        
     pdf.ln(5)
     pdf.line(10, pdf.get_y(), 200, pdf.get_y())
     pdf.ln(8)
+    
     pdf.set_font("Arial", 'B', 14)
     pdf.cell(140, 10, "VALOR TOTAL DO PEDIDO:", border=0)
     pdf.cell(50, 10, f"R$ {valor_total:.2f}", border=0, ln=True, align='R')
+    
     pdf.ln(20)
     pdf.set_font("Arial", 'I', 10)
-    pdf.cell(0, 10, "Obrigado pela preferencia! Orcamento valido por 7 dias.", ln=True, align='C')
+    pdf.cell(0, 10, "Obrigado pela preferência! Orçamento válido por 7 dias.", ln=True, align='C')
     
     return pdf.output(dest="S").encode("latin-1")
         
