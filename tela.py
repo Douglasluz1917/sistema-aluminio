@@ -402,7 +402,7 @@ elif tipo_venda == "Borrachas (Por Metro)":
             st.rerun()
 elif tipo_venda == "Rebites (Por Cento)":
         rebite = st.selectbox("Escolha o Rebite:", list(estoque_rebites.keys()))
-        cor_rebite = st.selectbox("Cor:", ["Padrão", "Preto", "Branco", "Fosco", "Bronze"], key="cor_rebite")
+        cor_rebite = st.selectbox("Cor:", [ "Preto", "Branco", "Fosco", "Bronze"], key="cor_rebite")
         qtd_rebites = st.number_input("Quantidade (Múltiplos de 100):", min_value=100, step=100)
         if st.button("Adicionar Rebite", key="btn_rebite"):
             preco_cento = estoque_rebites[rebite]
