@@ -1,5 +1,27 @@
 import streamlit as st
 import urllib.parse
+import streamlit as st
+import urllib.parse
+from  fpdf import FPDF
+def criar_pdf(carrinho, valor_total):
+    pdf = FPDF()
+    st.pdf.add_page()
+    pdf.set_font("Arial", 'B', 16)pdf.cell(0, 10, "Orcamento - AF Aluminio", ln=True, align='C')
+    pdf.ln(10)
+    pdf.set_font("Arial", '', 11)
+    for item in carrinho:
+        nome = item.get("Perfil", "Produto")
+        cor = item.get("Cor", "-")
+        medida = str(item.get("Metros", "")) 
+        valor = item.get("Valor (R$)", 0)
+        
+        linha = f"- {nome} ({cor}) | Medida: {medida} | R$ {valor:.2f}"
+        pdf.cell(0, 8, linha, ln=True)
+        pdf.ln(5)
+    pdf.set_font("Arial", 'B', 14)
+    pdf.cell(0, 10, f"Valor Total do Pedido: R$ {valor_total:.2f}", ln=True)
+    return pdf.output(dest="S").encode("latin-1")
+
 st.image("logo.png", width=200)
 if "carrinho" not in st.session_state:
  st.session_state["carrinho"] = []
@@ -218,6 +240,14 @@ with col2:
     texto_codificado = urllib.parse.quote(texto_whatsapp)
     link = f"https://wa.me/?text={texto_codificado}"
     st.markdown(f"**[📱 Enviar Orçamento pelo WhatsApp]({link})**")
+    pdf_pronto = criar_pdf(st.session_state["carrinho"], valor_pedido)
+        
+    st.download_button(
+            label="🖨️ Imprimir Orçamento (PDF)",
+            data=pdf_pronto,
+            file_name="Orcamento_Cliente.pdf",
+            mime="application/pdf"
+        )
         
     if st.button("Limpar Carrinho"):
         st.session_state["carrinho"].clear()
