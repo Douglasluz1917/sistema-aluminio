@@ -61,7 +61,7 @@ if "carrinho" not in st.session_state:
     col_logo, col_titulo = st.columns([1, 10])
 with col_logo:
     if os.path.exists("logo.png"):
-        st.image("logo.png", width=70)
+        st.image("logo.png", width=70
 with col_titulo:
     st.title("Sistema de Orçamentos")
 st.divider()
