@@ -295,25 +295,28 @@ if "carrinho" not in st.session_state:
     st.session_state["carrinho"] = []
 
 with st.sidebar:
+
+
     st.header("🛒 Orçamento Atual")
     valor_pedido = sum(item.get("Valor (R$)", 0.0) for item in st.session_state["carrinho"])
     st.markdown(f"<h3 style='color: #2e7d32; margin-top: 0;'>Total: R$ {valor_pedido:.2f}</h3>", unsafe_allow_html=True)
     
-    caixa_carrinho = st.container(height=380)
-    with caixa_carrinho:
-        if len(st.session_state["carrinho"]) == 0:
-            st.info("Nenhum item adicionado.")
-        else:
-            for i, item in enumerate(st.session_state["carrinho"]):
-                col_info, col_del = st.columns([5, 1])
-                with col_info:
-                    st.markdown(f"**{item.get('Perfil', '')}** ({item.get('Cor', '')})")
-                    st.markdown(f"{item.get('Metros', '')} | **R$ {item.get('Valor (R$)', 0.0):.2f}**")
-                with col_del:
-                    if st.button("❌", key=f"del_{i}"):
-                        st.session_state["carrinho"].pop(i)
-                        st.rerun()
-                st.divider()
+
+    if len(st.session_state["carrinho"]) == 0:
+        st.info("Nenhum item adicionado.")
+    else:
+        for i, item in enumerate(st.session_state["carrinho"]):
+            col_info, col_del = st.columns([5, 1])
+            with col_info:
+                
+                st.markdown(f"<div style='font-size: 14px; margin-bottom: -10px;'><b>{item.get('Perfil', '')}</b> ({item.get('Cor', '')})</div>", unsafe_allow_html=True)
+                st.markdown(f"<div style='font-size: 13px; color: gray;'>{item.get('Metros', '')} | <b>R$ {item.get('Valor (R$)', 0.0):.2f}</b></div>", unsafe_allow_html=True)
+            with col_del:
+                if st.button("❌", key=f"del_{i}", help="Remover"):
+                    st.session_state["carrinho"].pop(i)
+                    st.rerun()
+            
+            st.markdown("<hr style='margin-top: 5px; margin-bottom: 5px; opacity: 0.3;'/>", unsafe_allow_html=True)
 
     st.write("")
     
@@ -324,22 +327,26 @@ with st.sidebar:
     texto_whatsapp += f"\n*TOTAL: R$ {valor_pedido:.2f}*"
     link_whats = f"https://wa.me/?text={urllib.parse.quote(texto_whatsapp)}"
     
+    # --- BOTÕES FINAIS (3 COLUNAS) ---
+    col_b1, col_b2, col_b3 = st.columns(3)
     
-    st.markdown(f"""
-        <a href="{link_whats}" target="_blank" style="display: block; text-align: center; background-color: #25D366; color: white; padding: 10px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-bottom: 12px;">
-            📱 Enviar por WhatsApp
-        </a>
-    """, unsafe_allow_html=True)
-    
-    col_b1, col_b2 = st.columns(2)
     with col_b1:
         if st.button("🗑️ Limpar", use_container_width=True):
             st.session_state["carrinho"] = []
             st.rerun()
+            
     with col_b2:
         pdf_pronto = criar_pdf(st.session_state["carrinho"], valor_pedido)
-        st.download_button("🖨️ Imprimir PDF", data=pdf_pronto, file_name="Orcamento.pdf", mime="application/pdf", use_container_width=True)
-col_logo, col_titulo = st.columns([1, 6])
+        st.download_button("🖨️ PDF", data=pdf_pronto, file_name="Orcamento.pdf", mime="application/pdf", use_container_width=True)
+        
+    with col_b3:
+        # Botão do Whats ajustado para o mesmo tamanho dos botões nativos
+        st.markdown(f"""
+            <a href="{link_whats}" target="_blank" style="display: flex; align-items: center; justify-content: center; background-color: #25D366; color: white; height: 38px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 500;">
+                📱 Whats
+            </a>
+        """, unsafe_allow_html=True)
+
 
 with col_logo:
     if os.path.exists("logo.png"):
