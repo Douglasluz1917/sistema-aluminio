@@ -141,7 +141,8 @@ with col2:
             with c1: 
                 st.write(f"{nome} ({item.get('Cor', '-')})")
             with c2: 
-                st.write(item.get("Qtd/Medida", ""))
+                medida = item.get("Metros", item.get("Qtd/Medida", ""))
+                st.write(f"{medida} m")
             with c3: 
                 st.write(f"R$ {item.get('Valor (R$)', 0):.2f}")
             with c4:
