@@ -456,7 +456,7 @@ with col2:
             st.info("Nenhum item adicionado ainda.")
         else:
             for i, item in enumerate(st.session_state["carrinho"]):
-            st.write(f"**{item['Perfil']}** ({item['Cor']}) | {item['Metros']}")
+                st.write(f"**{item['Perfil']}** ({item['Cor']}) | {item['Metros']}")
                 st.write(f"R$ {item['Valor (R$)']:.2f}")
                 st.divider()
                 st.subheader(f"Total: R$ {valor_pedido:.2f}")
