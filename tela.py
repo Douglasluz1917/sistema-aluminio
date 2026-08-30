@@ -418,6 +418,7 @@ with col2:
                     st.rerun()
 
                     st.write("---") 
+                    
                     col_btn1, col_btn2 = st.columns(2)
     
 
