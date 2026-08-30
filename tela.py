@@ -5,7 +5,8 @@ import urllib.parse
 from  fpdf import FPDF
 def criar_pdf(carrinho, valor_total):
     pdf = FPDF()
-    st.pdf.add_page()
+    pdf.add_page()
+
     pdf.set_font("Arial", 'B', 16)
     pdf.cell(0, 10, "Orcamento - AF Aluminio", ln=True, align='C')
     pdf.ln(10)
