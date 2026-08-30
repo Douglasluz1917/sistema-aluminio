@@ -423,10 +423,19 @@ with col2:
                     st.rerun()
 st.write("") 
     
-col_btn1, col_btn2 = st.columns(2)
+
+texto_whatsapp = f"*ORÇAMENTO - AF ALUMÍNIO*\n\n"
+for item in st.session_state["carrinho"]:
+        texto_whatsapp += f"▪️ {item.get('Perfil', '')} ({item.get('Cor', '')}) - {item.get('Metros', '')}\n"
+texto_whatsapp += f"\n*TOTAL: R$ {valor_pedido:.2f}*"
+    
+link_whats = f"https://wa.me/?text={urllib.parse.quote(texto_whatsapp)}"
+    
+    
+col_btn1, col_btn2, col_btn3 = st.columns(3)
     
 with col_btn1:
-        if st.button("🗑️ Limpar Tudo", use_container_width=True):
+        if st.button("🗑️ Limpar", use_container_width=True):
             st.session_state["carrinho"] = []
             st.rerun()
             
@@ -438,34 +447,10 @@ with col_btn2:
             file_name="Orcamento.pdf", 
             mime="application/pdf", 
             use_container_width=True
-        )                   
-
- 
-        
-        
-peso_pedido = sum(linha.get("Peso (kg)", 0.0) for linha in st.session_state["carrinho"])
-valor_pedido = sum(linha["Valor (R$)"] for linha in st.session_state["carrinho"])
-        
-st.info(f"**PESO TOTAL:** {peso_pedido:.3f} kg")
-st.success(f"**VALOR TOTAL DO PEDIDO: R$ {valor_pedido:.2f}**")
-texto_whatsapp = "*Orçamento - AF Alumínio* 🛒\n\n"
-        
-for item in st.session_state["carrinho"]:
-       texto_whatsapp += f"▪️ {item['Perfil']} ({item['Cor']}) - {item['Metros']}m\n"
-            
-texto_whatsapp += f"\n*Valor Total: R$ {valor_pedido:.2f}*"
-texto_codificado = urllib.parse.quote(texto_whatsapp)
-link = f"https://wa.me/?text={texto_codificado}"
-st.markdown(f"**[📱 Enviar Orçamento pelo WhatsApp]({link})**")
-pdf_pronto = criar_pdf(st.session_state["carrinho"], valor_pedido)
-        
-st.download_button(
-            label="🖨️ Imprimir Orçamento (PDF)",
-            data=pdf_pronto,
-            file_name="Orcamento_Cliente.pdf",
-            mime="application/pdf"
         )
         
-if st.button("Limpar Carrinho"):
-        st.session_state["carrinho"].clear()
-        st.rerun()
+with col_btn3:
+       
+        st.link_button("📱 WhatsApp", link_whats, use_container_width=True)
+ 
+        peso_pedido = sum(linha.get("Peso (kg)", 0.0) for linha in st.session_state["carrinho"])
