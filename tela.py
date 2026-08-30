@@ -100,8 +100,8 @@ col1, col2 = st.columns([1, 1.5])
 
 with col1:
     with col1:
-    with col1:
-    tipo_venda = st.radio("Tipo de Produto:", ["Perfis (Por Peso)", "Produtos por Peça (Cantoneiras, VZ)"], horizontal=True)
+
+        tipo_venda = st.radio("Tipo de Produto:", ["Perfis (Por Peso)", "Produtos por Peça (Cantoneiras, VZ)"], horizontal=True)
     
     if tipo_venda == "Perfis (Por Peso)":
         perfil = st.selectbox("Escolha o Perfil:", list(estoque_perfis.keys()))
