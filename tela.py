@@ -333,7 +333,7 @@ if tipo_venda == "Perfis (Por Peso)":
 
         elif tipo_venda == "Produtos por Peça":
             produto_peca = st.selectbox("Escolha o Produto:", list(estoque_pecas.keys()))
-        cor_peca = st.selectbox("Escolha a Cor:", ["Branco", "Fosco", "Preto", "Bronze"])
+        cor = st.selectbox("Escolha a Cor:", ["Branco", "Fosco", "Preto", "Bronze"], key="cor_perfil")
         tamanho_corte = st.selectbox("Tamanho da peça (metros):", [6, 4, 3, 2])
         qtd_pecas = st.number_input("Quantidade:", min_value=1, step=1) if tamanho_corte == 6 else 1
         
