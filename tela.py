@@ -64,6 +64,138 @@ if "carrinho" not in st.session_state:
  st.session_state["carrinho"] = []
 st.title("Sistema de Orçamento - Alumínio")
 st.write("---")
+
+estoque_acessorios = {
+   "335": 16.00,
+   "510": 55.00,
+   "511": 32.00,
+   "PARAFUSO ALTO BROCANTE 1'": 0.80,
+   "038 IGREJINHA": 3.00,
+   "511 A": 10.00,
+   "570 V/V": 26.00,
+   "571 V/A": 18.00,
+   "APLICADOR DE SILICIONE": 35.00,
+   "BAGUETE BOX": 6.00,
+   "BASTÃO 8 E 10": 17.00,
+   "BATEDOR BOX NOVO": 0.50,
+   "BRAÇO MAX AR 25": 13.00,
+   "BRAÇO MAX AR 35": 17.00,
+   "BRAÇO MAX AR 55": 23.00,
+   "BRAÇO TOLDO 1,50M": 90.00,
+   "BRAÇO TOLDO 1M": 60.00,
+   "BROCA 1/2": 18.00,
+   "BROCA 1/8": 4.00,
+   "BROCA 11/64": 6.00,
+   "BROCA 5/32": 5.00,
+   "BROCA 9/64": 4.50,
+   "BUCHA 6": 15.00,
+   "BUCHA 8": 30.00,
+   "CANOPLA": 4.00,
+   "CAVALETE BOX": 1.00,
+   "CHAPA ACRILICA CRISTAL": 130.00,
+   "CHAPA ACRILICA FUME": 110.00,
+   "CHAPA ACRILICA LEITOSA": 130.00,
+   "CONTROLE MOTOR": 35.00,
+   "CREMALHEIRA": 55.00,
+   "CUNHA PARA VIDRO": 0.50,
+   "DISCO DE CORTE 4,5": 3.00,
+   "DOBRADIÇA PARA BOX": 3.00,
+   "DOBRADIÇA BÚZIO": 8.00,
+   "DOBRADIÇA PORTA": 5.00,
+   "FECHADURA CORRER BÚZIO": 75.00,
+   "FECHADURA DE PORTA CORRER": 55.00,
+   "FECHADURA DE PORTA GIRO": 75.00,
+   "FECHADURA PORTA GIRO 401": 68.00,
+   "FECHADURA BÚZIO 1/2": 92.00,
+   "FECHADURA BÚZIO COMPLETA": 98.00,
+   "FECHADURA ROLETE BÚZIO": 85.00,
+   "FECHADURA ROLETE PORTA": 65.00,
+   "FECHO AVIÃO CROMADO": 6.00,
+   "FECHO AVIÃO NYLON": 5.00,
+   "FECHO CONCHA C/ GATILHO": 14.00,
+   "FECHO CONCHA S/ GATILHO": 8.00,
+   "FERROLHO 1' 1/2": 5.00,
+   "FERROLHO 2'": 8.00,
+   "FERROLHO 3'": 9.00,
+   "FERROLHO 4'": 10.00,
+   "FERROLHO BÚZIO GRANDE 40CM": 18.00,
+   "FERROLHO BÚZIO PEQUENO 20CM": 14.00,
+   "FITA DE ENCOSTO": 10.00,
+   "FITA DUPLA FACE": 50.00,
+   "FIXA ESPELHO": 22.00,
+   "GUIA BOX VELHO": 0.50,
+   "GUIA BÚZIO": 5.00,
+   "GUIA DE BOX NOVO": 1.00,
+   "GUIA MB": 0.50,
+   "GUIA MP": 0.50,
+   "H PANORAMICO": 4.00,
+   "H POLICARBONATO": 120.00,
+   "JOGO L E CUNHA": 45.00,
+   "L DE CONTRA MARCO": 1.00,
+   "L PARA BOX": 1.00,
+   "L PERFIL DE TELA": 2.00,
+   "MOTOR": 450.00,
+   "ORELHA DE RATO L 25": 7.00,
+   "ORELHA DE RATO MB": 7.00,
+   "ORELHA RATO MP": 7.00,
+   "PARAFUSO 1' X 8": 0.25,
+   "PARAFUSO 2' X 10": 0.50,
+   "PARAFUSO 2' X 8": 0.50,
+   "PARAFUSO COM PORCA INOX": 1.50,
+   "PARAFUSO PONTA LISA GRANDE": 0.70,
+   "PARAFUSO PONTA LISA PEQUENO": 0.40,
+   "POLICARBONATO": 480.00,
+   "PONTALETE": 25.00,
+   "PORTA TOALHA": 2.00,
+   "PUXADOR BOX": 1.00,
+   "PUXADOR BOX DUPLO": 2.00,
+   "PUXADOR INOX": 55.00,
+   "PUXADOR JANELA VIDRO": 7.00,
+   "PUXADOR PORTÃO BÚZIO": 14.00,
+   "ROLDANA BOX": 1.00,
+   "ROLDANA BOX S/ CAIXA": 1.00,
+   "ROLDANA BÚZIO": 22.00,
+   "ROLDANA BUZIO NYLON": 19.00,
+   "ROLDANA EXCENTRICA": 7.00,
+   "ROLDANA JANELA SUPREMA": 6.50,
+   "ROLDANA MB": 1.00,
+   "ROLDANA MP": 1.50,
+   "ROLDANA MP C/ ROLAMENTO": 5.50,
+   "ROLDANA PORTA MP": 7.50,
+   "ROLDANA SIMPLES": 3.00,
+   "ROLDANA TRILHO STANLEY PAR": 23.00,
+   "SILICONE INCOLOR": 18.00,
+   "SILICONE BC E PT E BZ": 20.00,
+   "SILICONE BRONZE WURTH": 25.00,
+   "SPRAY PRETO": 25.00,
+   "SUPORTE PARA CORRIMÃO": 7.50,
+   "TAMPA CORRIMÃO BOLEADO":3.00,
+   "TAMPA CORRIMÃO REDONDO": 5.00,
+   "TAMPA PARA PARAFUSO": 0.50,
+   "TAPA FURO PT E BC": 8.00,
+   "TRANQUETA MAX AR": 9.00,
+   "U POLICARBONATO": 65.00,
+   "VEDA CALHA": 18.00,
+   "Z PANORAMICO": 4.00
+
+}
+
+estoque_borrachas = {
+   "BORRACHA 051": 2.30,
+   "SEREGEL 5X5": 1.00,
+   "SEREGEL 7X5": 1.20,
+}
+
+estoque_rebites = {
+   "REBITE 325": 15.00,
+   "REBITE 412 FOSCO": 11.00,
+   "REBITE 412 PT E BC": 13.00,
+   "REBITE 425": 17.00,
+   "REBITE 512": 15.00,
+   "REBITE 525": 20.00,
+}
+
+   
 estoque_pecas= {
     "CT 002 L.1/2": 25.00,
     "CT 008 L.3/4": 35.00,
@@ -174,11 +306,12 @@ estoque_perfis = {
 col1, col2 = st.columns([1, 1.5])
 
 with col1:
-    with col1:
-
-        tipo_venda = st.radio("Tipo de Produto:", ["Perfis (Por Peso)", "Produtos por Peça (Cantoneiras, VZ)"], horizontal=True)
-    
-    if tipo_venda == "Perfis (Por Peso)":
+tipo_venda = st.radio(
+        "Tipo de Produto:", 
+        ["Perfis (Por Peso)", "Produtos por Peça (Cantoneiras, VZ)", "Acessórios (Unidade)", "Borrachas (Por Metro)", "Rebites (Por Cento)"], 
+        horizontal=True
+    )
+if tipo_venda == "Perfis (Por Peso)":
         perfil = st.selectbox("Escolha o Perfil:", list(estoque_perfis.keys()))
         cor = st.selectbox("Escolha a Cor:", ["Branco", "Fosco", "Preto", "Bronze"])
         metros = st.number_input("Quantos metros o cliente vai querer?", min_value=0.0)
@@ -186,26 +319,24 @@ with col1:
         if st.button("Adicionar ao Orçamento", key="btn_perfil"):
             peso_metro = estoque_perfis[perfil]
             
-        
             if cor == "Preto" or cor == "Bronze":
                 preco_kg = 50.00
             else:
                 preco_kg = 45.00
-            # ---------------------------------
             
             peso_total = metros * peso_metro
             
             item = {
                 "Perfil": perfil,
                 "Cor": cor,
-                "Metros": metros,
+                "Metros": f"{metros} m", 
                 "Peso (kg)": round(peso_total, 3),
                 "Valor (R$)": round(peso_total * preco_kg, 2)
             }
             st.session_state["carrinho"].append(item)
             st.rerun()
             
-    elif tipo_venda == "Produtos por Peça (Cantoneiras, VZ)":
+elif tipo_venda == "Produtos por Peça (Cantoneiras, VZ)":
         produto_peca = st.selectbox("Escolha o Produto:", list(estoque_pecas.keys()))
         cor_peca = st.selectbox("Escolha a Cor:", ["Branco", "Fosco", "Preto", "Bronze"], key="cor_peca")
         tamanho_corte = st.selectbox("Tamanho da peça (metros):", [6, 4, 3, 2])
@@ -231,6 +362,62 @@ with col1:
             }
             st.session_state["carrinho"].append(item)
             st.rerun()
+            
+elif tipo_venda == "Acessórios (Unidade)":
+        acessorio = st.selectbox("Escolha o Acessório:", list(estoque_acessorios.keys()))
+        cor_acessorio = st.selectbox("Cor/Acabamento:", ["Padrão", "Branco", "Fosco", "Preto", "Bronze"], key="cor_acess")
+        qtd_acessorio = st.number_input("Quantidade (Unidades):", min_value=1, step=1)
+        
+        if st.button("Adicionar Acessório", key="btn_acessorio"):
+            preco_unitario = estoque_acessorios[acessorio]
+            valor_total_acessorio = qtd_acessorio * preco_unitario
+            
+            item = {
+                "Perfil": acessorio,
+                "Cor": cor_acessorio,
+                "Metros": f"{qtd_acessorio} un", 
+                "Peso (kg)": 0.0,
+                "Valor (R$)": round(valor_total_acessorio, 2)
+            }
+            st.session_state["carrinho"].append(item)
+            st.rerun()
+
+elif tipo_venda == "Borrachas (Por Metro)":
+        borracha = st.selectbox("Escolha a Borracha:", list(estoque_borrachas.keys()))
+        cor_borracha = st.selectbox("Cor:", ["Preto", "Branco", "Cinza", "Transparente"], key="cor_borracha")
+        metros_borracha = st.number_input("Metros de Borracha:", min_value=0.5, step=0.5)
+        
+        if st.button("Adicionar Borracha", key="btn_borracha"):
+            preco_metro = estoque_borrachas[borracha]
+            valor_total_borracha = metros_borracha * preco_metro
+            
+            item = {
+                "Perfil": borracha,
+                "Cor": cor_borracha,
+                "Metros": f"{metros_borracha} m", 
+                "Peso (kg)": 0.0,
+                "Valor (R$)": round(valor_total_borracha, 2)
+            }
+            st.session_state["carrinho"].append(item)
+            st.rerun()
+elif tipo_venda == "Rebites (Por Cento)":
+        rebite = st.selectbox("Escolha o Rebite:", list(estoque_rebites.keys()))
+        cor_rebite = st.selectbox("Cor:", ["Padrão", "Preto", "Branco", "Fosco", "Bronze"], key="cor_rebite")
+        qtd_rebites = st.number_input("Quantidade (Múltiplos de 100):", min_value=100, step=100)
+        if st.button("Adicionar Rebite", key="btn_rebite"):
+            preco_cento = estoque_rebites[rebite]
+            valor_total_rebite = (qtd_rebites / 100) * preco_cento
+            
+            item = {
+                "Perfil": rebite,
+                "Cor": cor_rebite,
+                "Metros": f"{qtd_rebites} un", 
+                "Peso (kg)": 0.0,
+                "Valor (R$)": round(valor_total_rebite, 2)
+            }
+            st.session_state["carrinho"].append(item)
+            st.rerun()
+            
 
 with col2:
     st.write("### 🛒 Itens no Orçamento")
