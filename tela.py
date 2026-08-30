@@ -331,8 +331,8 @@ if tipo_venda == "Perfis (Por Peso)":
             st.session_state["carrinho"].append(item)
             st.rerun()
 
-    elif tipo_venda == "Produtos por Peça":
-        produto_peca = st.selectbox("Escolha o Produto:", list(estoque_pecas.keys()))
+        elif tipo_venda == "Produtos por Peça":
+            produto_peca = st.selectbox("Escolha o Produto:", list(estoque_pecas.keys()))
         cor_peca = st.selectbox("Escolha a Cor:", ["Branco", "Fosco", "Preto", "Bronze"])
         tamanho_corte = st.selectbox("Tamanho da peça (metros):", [6, 4, 3, 2])
         qtd_pecas = st.number_input("Quantidade:", min_value=1, step=1) if tamanho_corte == 6 else 1
@@ -348,8 +348,8 @@ if tipo_venda == "Perfis (Por Peso)":
             st.session_state["carrinho"].append(item)
             st.rerun()
 
-    elif tipo_venda == "Acessórios (Unidade)":
-        acessorio = st.selectbox("Escolha o Acessório:", list(estoque_acessorios.keys()))
+        elif tipo_venda == "Acessórios (Unidade)":
+            acessorio = st.selectbox("Escolha o Acessório:", list(estoque_acessorios.keys()))
         cor_acessorio = st.selectbox("Cor/Acabamento:", ["Padrão", "Branco", "Fosco", "Preto", "Bronze"])
         qtd_acessorio = st.number_input("Quantidade (Unidades):", min_value=1, step=1)
         
@@ -358,8 +358,8 @@ if tipo_venda == "Perfis (Por Peso)":
             st.session_state["carrinho"].append(item)
             st.rerun()
 
-    elif tipo_venda == "Borrachas (Metro)":
-        borracha = st.selectbox("Escolha a Borracha:", list(estoque_borrachas.keys()))
+        elif tipo_venda == "Borrachas (Metro)":
+            borracha = st.selectbox("Escolha a Borracha:", list(estoque_borrachas.keys()))
         cor_borracha = st.selectbox("Cor:", ["Preto", "Branco", "Cinza", "Transparente"])
         metros_borracha = st.number_input("Metros:", min_value=0.5, step=0.5)
         
@@ -368,8 +368,8 @@ if tipo_venda == "Perfis (Por Peso)":
             st.session_state["carrinho"].append(item)
             st.rerun()
 
-    elif tipo_venda == "Rebites (Cento)":
-        rebite = st.selectbox("Escolha o Rebite:", list(estoque_rebites.keys()))
+        elif tipo_venda == "Rebites (Cento)":
+            rebite = st.selectbox("Escolha o Rebite:", list(estoque_rebites.keys()))
         cor_rebite = st.selectbox("Cor:", ["Padrão", "Preto", "Branco", "Fosco", "Bronze"])
         qtd_rebites = st.number_input("Quantidade (Múltiplos de 100):", min_value=100, step=100)
         
@@ -423,7 +423,7 @@ with col2:
             st.session_state["carrinho"] = []
             st.rerun()
             with col_btn2:
-            pdf_pronto = criar_pdf(st.session_state["carrinho"], valor_pedido)
+                pdf_pronto = criar_pdf(st.session_state["carrinho"], valor_pedido)
             st.download_button("🖨️ Imprimir PDF", data=pdf_pronto, file_name="Orcamento.pdf", mime="application/pdf", use_container_width=True)
                              
 
