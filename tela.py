@@ -127,7 +127,21 @@ with col2:
     st.write("### 🛒 Itens no Orçamento")
     
     if len(st.session_state["carrinho"]) > 0:
-        st.dataframe(st.session_state["carrinho"], use_container_width=True) 
+        st.dataframe(st.session_state["carrinho"], use_container_width=True)
+        st.write("---")
+        opcoes_remover = [f"Linha {i+1} - {item.get('Item', item.get('Perfil', 'Produto'))} ({item.get('Cor', '-')})" for i, item in enumerate(st.session_state["carrinho"])]
+        col_rem1, col_rem2 = st.columns([3, 2])
+        with col_rem1:
+            item_selecionado = st.selectbox("Errou algum item? Selecione para remover:", opcoes_remover)
+            with col_rem2:
+              st.write("")
+              st.write("")
+            if st.button("🗑️ Remover Item"):
+                indice_real = opcoes_remover.index(item_selecionado)
+                st.session_state["carrinho"].pop(indice_real)
+                st.rerun()
+                st.write("---")
+                
         
     peso_pedido = sum(linha["Peso (kg)"] for linha in st.session_state["carrinho"])
     valor_pedido = sum(linha["Valor (R$)"] for linha in st.session_state["carrinho"])
