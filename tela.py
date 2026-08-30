@@ -120,9 +120,9 @@ with col1:
             st.session_state["carrinho"].append(item)
             st.rerun()
         elif tipo_venda == "Cantoneiras (Por Peça)":
-        cantoneira = st.selectbox("Escolha a Cantoneira:", list(estoque_cantoneiras.keys()))
-        cor_cant = st.selectbox("Escolha a Cor:", ["Branco", "Fosco", "Preto", "Bronze"], key="cor_cantoneira")
-        tamanho_corte = st.selectbox("Tamanho da peça (metros):", [6, 4, 3, 2])
+            cantoneira = st.selectbox("Escolha a Cantoneira:", list(estoque_cantoneiras.keys()))
+            cor_cant = st.selectbox("Escolha a Cor:", ["Branco", "Fosco", "Preto", "Bronze"], key="cor_cantoneira")
+            tamanho_corte = st.selectbox("Tamanho da peça (metros):", [6, 4, 3, 2])
         
         if tamanho_corte == 6:
             qtd_pecas = st.number_input("Quantidade de barras (6m):", min_value=1, step=1)
