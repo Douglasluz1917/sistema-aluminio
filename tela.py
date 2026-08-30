@@ -11,7 +11,6 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-
 def criar_pdf(carrinho, valor_total):
     pdf = FPDF()
     pdf.add_page()
@@ -20,7 +19,7 @@ def criar_pdf(carrinho, valor_total):
         
     pdf.set_font("Arial", 'B', 18)
     pdf.cell(40) 
-    pdf.cell(0, 10, "ORÇAMENTO - AF ALUMÍNIO", ln=True, align='L')
+    pdf.cell(0, 10, "ORCAMENTO - AF ALUMINIO", ln=True, align='L')
     
     data_atual = datetime.now().strftime("%d/%m/%Y")
     pdf.set_font("Arial", 'I', 11)
@@ -33,7 +32,7 @@ def criar_pdf(carrinho, valor_total):
     pdf.ln(8)
     
     pdf.set_font("Arial", 'B', 12)
-    pdf.cell(140, 8, "Descrição do Produto")
+    pdf.cell(140, 8, "Descricao do Produto")
     pdf.cell(50, 8, "Subtotal", ln=True, align='R')
     pdf.ln(2)
     
@@ -53,25 +52,8 @@ def criar_pdf(carrinho, valor_total):
     
     pdf.ln(20)
     pdf.set_font("Arial", 'I', 10)
-    pdf.cell(0, 10, "Obrigado pela preferência! Orçamento válido por 7 dias.", ln=True, align='C')
+    pdf.cell(0, 10, "Obrigado pela preferencia! Orcamento valido por 7 dias.", ln=True, align='C')
     return pdf.output(dest="S").encode("latin-1")
-
-
-if "carrinho" not in st.session_state:
-    st.session_state["carrinho"] = []
-
-
-col_logo, col_titulo = st.columns([1, 10])
-
-with col_logo:
-    if os.path.exists("logo.png"):
-        st.image("logo.png", width=70)
-
-with col_titulo:
-    st.title("Sistema de Orçamentos")
-st.divider()
-
-col1, col_espaco, col2 = st.columns([10, 1, 9])
 
 estoque_acessorios = {
    "335": 16.00,
@@ -310,8 +292,18 @@ estoque_perfis = {
 
         
          }
+if "carrinho" not in st.session_state:
+    st.session_state["carrinho"] = []
 
-col1, col2 = st.columns([1, 1.5])
+col_logo, col_titulo = st.columns([1, 10])
+with col_logo:
+    if os.path.exists("logo.png"):
+        st.image("logo.png", width=70)
+with col_titulo:
+    st.title("Sistema de Orçamentos")
+st.divider()
+
+col1, col_espaco, col2 = st.columns([10, 1, 9])
 
 with col1:
     st.subheader("📝 Lançar Produto")
@@ -321,24 +313,25 @@ with col1:
         ["Perfis (Por Peso)", "Produtos por Peça", "Acessórios (Unidade)", "Borrachas (Metro)", "Rebites (Cento)"], 
         horizontal=True
     )
-    st.write("")
-
-if tipo_venda == "Perfis (Por Peso)":
+    
+    st.write("") 
+    
+    if tipo_venda == "Perfis (Por Peso)":
         perfil = st.selectbox("Escolha o Perfil:", list(estoque_perfis.keys()))
-        cor = st.selectbox("Escolha a Cor:", ["Branco", "Fosco", "Preto", "Bronze"])
+        cor = st.selectbox("Escolha a Cor:", ["Branco", "Fosco", "Preto", "Bronze"], key="cor_perfil")
         metros = st.number_input("Metragem (m):", min_value=0.0, step=0.5)
         
         if st.button("Adicionar Perfil", type="primary"):
             peso_metro = estoque_perfis[perfil]
             preco_kg = 50.00 if cor in ["Preto", "Bronze"] else 45.00
             peso_total = metros * peso_metro
-            item = {"Perfil": perfil, "Cor": cor, "Metros": f"{metros} m", "Valor (R$)": round(peso_total * preco_kg, 2)}
+            item = {"Perfil": perfil, "Cor": cor, "Metros": f"{metros} m", "Peso (kg)": round(peso_total, 3), "Valor (R$)": round(peso_total * preco_kg, 2)}
             st.session_state["carrinho"].append(item)
             st.rerun()
 
-        elif tipo_venda == "Produtos por Peça":
-            produto_peca = st.selectbox("Escolha o Produto:", list(estoque_pecas.keys()))
-        cor = st.selectbox("Escolha a Cor:", ["Branco", "Fosco", "Preto", "Bronze"], key="cor_perfil")
+    elif tipo_venda == "Produtos por Peça":
+        produto_peca = st.selectbox("Escolha o Produto:", list(estoque_pecas.keys()))
+        cor_peca = st.selectbox("Escolha a Cor:", ["Branco", "Fosco", "Preto", "Bronze"], key="cor_peca")
         tamanho_corte = st.selectbox("Tamanho da peça (metros):", [6, 4, 3, 2])
         qtd_pecas = st.number_input("Quantidade:", min_value=1, step=1) if tamanho_corte == 6 else 1
         
@@ -353,9 +346,9 @@ if tipo_venda == "Perfis (Por Peso)":
             st.session_state["carrinho"].append(item)
             st.rerun()
 
-        elif tipo_venda == "Acessórios (Unidade)":
-            acessorio = st.selectbox("Escolha o Acessório:", list(estoque_acessorios.keys()))
-        cor_acessorio = st.selectbox("Cor/Acabamento:", ["Padrão", "Branco", "Fosco", "Preto", "Bronze"])
+    elif tipo_venda == "Acessórios (Unidade)":
+        acessorio = st.selectbox("Escolha o Acessório:", list(estoque_acessorios.keys()))
+        cor_acessorio = st.selectbox("Cor/Acabamento:", ["Padrão", "Branco", "Fosco", "Preto", "Bronze"], key="cor_acess")
         qtd_acessorio = st.number_input("Quantidade (Unidades):", min_value=1, step=1)
         
         if st.button("Adicionar Acessório", type="primary"):
@@ -363,9 +356,9 @@ if tipo_venda == "Perfis (Por Peso)":
             st.session_state["carrinho"].append(item)
             st.rerun()
 
-        elif tipo_venda == "Borrachas (Metro)":
-            borracha = st.selectbox("Escolha a Borracha:", list(estoque_borrachas.keys()))
-        cor_borracha = st.selectbox("Cor:", ["Preto", "Branco", "Cinza", "Transparente"])
+    elif tipo_venda == "Borrachas (Metro)":
+        borracha = st.selectbox("Escolha a Borracha:", list(estoque_borrachas.keys()))
+        cor_borracha = st.selectbox("Cor:", ["Preto", "Branco", "Cinza", "Transparente"], key="cor_borracha")
         metros_borracha = st.number_input("Metros:", min_value=0.5, step=0.5)
         
         if st.button("Adicionar Borracha", type="primary"):
@@ -373,54 +366,32 @@ if tipo_venda == "Perfis (Por Peso)":
             st.session_state["carrinho"].append(item)
             st.rerun()
 
-        elif tipo_venda == "Rebites (Cento)":
-            rebite = st.selectbox("Escolha o Rebite:", list(estoque_rebites.keys()))
-        cor_rebite = st.selectbox("Cor:", ["Padrão", "Preto", "Branco", "Fosco", "Bronze"])
+    elif tipo_venda == "Rebites (Cento)":
+        rebite = st.selectbox("Escolha o Rebite:", list(estoque_rebites.keys()))
+        cor_rebite = st.selectbox("Cor:", ["Padrão", "Preto", "Branco", "Fosco", "Bronze"], key="cor_rebite")
         qtd_rebites = st.number_input("Quantidade (Múltiplos de 100):", min_value=100, step=100)
         
         if st.button("Adicionar Rebites", type="primary"):
-            valor_total = (qtd_rebites / 100) * estoque_rebites[rebite]
-            item = {"Perfil": rebite, "Cor": cor_rebite, "Metros": f"{qtd_rebites} un", "Valor (R$)": round(valor_total, 2)}
+            valor_total_rebite = (qtd_rebites / 100) * estoque_rebites[rebite]
+            item = {"Perfil": rebite, "Cor": cor_rebite, "Metros": f"{qtd_rebites} un", "Valor (R$)": round(valor_total_rebite, 2)}
             st.session_state["carrinho"].append(item)
             st.rerun()
-
 with col2:
-    st.subheader("🛒 Orçamento Atual")
+   st.subheader("🛒 Orçamento Atual")
     
-
-    valor_pedido = sum(item["Valor (R$)"] for item in st.session_state["carrinho"])
-    st.markdown(f"<h3 style='color: #2e7d32; margin-top: 0;'>Total: R$ {valor_pedido:.2f}</h3>", unsafe_allow_html=True)
-
-    caixa_carrinho = st.container(height=380)
+valor_pedido = sum(item.get("Valor (R$)", 0.0) for item in st.session_state["carrinho"])
+st.markdown(f"<h3 style='color: #2e7d32; margin-top: 0;'>Total: R$ {valor_pedido:.2f}</h3>", unsafe_allow_html=True)
     
-    with caixa_carrinho:
+caixa_carrinho = st.container(height=380)
+    
+with caixa_carrinho:
         if len(st.session_state["carrinho"]) == 0:
             st.info("Nenhum item adicionado ainda.")
         else:
             for i, item in enumerate(st.session_state["carrinho"]):
-                st.markdown(f"**{item['Perfil']}** ({item['Cor']}) &mdash; {item['Metros']}")
-                st.markdown(f"**R$ {item['Valor (R$)']:.2f}**")
+                st.markdown(f"**{item.get('Perfil', '')}** ({item.get('Cor', '')}) &mdash; {item.get('Metros', '')}")
+                st.markdown(f"**R$ {item.get('Valor (R$)', 0.0):.2f}**")
                 st.divider()
-                st.write("")
-
-
-
-        for i, item in enumerate(st.session_state["carrinho"]):
-            c1, c2, c3, c4 = st.columns([3, 2, 2, 1])
-            
-            nome = item.get("Item", item.get("Perfil", "Produto"))
-            
-            with c1: 
-                st.write(f"{nome} ({item.get('Cor', '-')})")
-            with c2: 
-                medida = item.get("Metros", item.get("Qtd/Medida", ""))
-                st.write(f"{medida} m")
-            with c3: 
-                st.write(f"R$ {item.get('Valor (R$)', 0):.2f}")
-            with c4:
-                if st.button("❌", key=f"remover_{i}"):
-                    st.session_state["carrinho"].pop(i)
-                    st.rerun()
 st.write("") 
     
 
