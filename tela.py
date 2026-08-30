@@ -109,7 +109,7 @@ with col1:
         
         if st.button("Adicionar ao Orçamento", key="btn_perfil"):
             peso_metro = estoque_perfis[perfil]
-            preco_kg = 50 if cor == "Bronze" else 45
+            preco_kg = 50 if cor == "Bronze" else 50
             peso_total = metros * peso_metro
             
             item = {
