@@ -56,12 +56,17 @@ def criar_pdf(carrinho, valor_total):
     pdf.cell(0, 10, "Obrigado pela preferência! Orçamento válido por 7 dias.", ln=True, align='C')
     return pdf.output(dest="S").encode("latin-1")
 
+
 if "carrinho" not in st.session_state:
     st.session_state["carrinho"] = []
-    col_logo, col_titulo = st.columns([1, 10])
-with col_logo: 
-   if os.path.exists("logo.png"):
+
+
+col_logo, col_titulo = st.columns([1, 10])
+
+with col_logo:
+    if os.path.exists("logo.png"):
         st.image("logo.png", width=70)
+
 with col_titulo:
     st.title("Sistema de Orçamentos")
 st.divider()
