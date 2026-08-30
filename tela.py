@@ -306,7 +306,7 @@ estoque_perfis = {
 col1, col2 = st.columns([1, 1.5])
 
 with col1:
-tipo_venda = st.radio(
+   tipo_venda = st.radio(
         "Tipo de Produto:", 
         ["Perfis (Por Peso)", "Produtos por Peça (Cantoneiras, VZ)", "Acessórios (Unidade)", "Borrachas (Por Metro)", "Rebites (Por Cento)"], 
         horizontal=True
@@ -417,7 +417,7 @@ elif tipo_venda == "Rebites (Por Cento)":
             }
             st.session_state["carrinho"].append(item)
             st.rerun()
-            
+
 
 with col2:
     st.write("### 🛒 Itens no Orçamento")
