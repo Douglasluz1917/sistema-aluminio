@@ -5,6 +5,14 @@ from datetime import datetime
 import os
 
 st.set_page_config(page_title="Orçamento AF Alumínio", layout="wide")
+st.markdown("""
+    <style>
+        .block-container {
+            padding-top: 1rem;
+            padding-bottom: 0rem;
+        }
+    </style>
+""", unsafe_allow_html=True)
 
 def criar_pdf(carrinho, valor_total):
     pdf = FPDF()
@@ -62,7 +70,7 @@ def criar_pdf(carrinho, valor_total):
         
 
 
-st.image("logo.png", width=200)
+st.sidebar.image("logo.png")
 if "carrinho" not in st.session_state:
  st.session_state["carrinho"] = []
 st.title("Sistema de Orçamento - Alumínio")
