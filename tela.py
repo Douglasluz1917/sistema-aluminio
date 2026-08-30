@@ -448,8 +448,12 @@ elif tipo_venda == "Rebites (Por Cento)":
 
 with col2:
     st.header("🛒 Orçamento Atual")
-    caixa_carrinho = st.container(height=350)
+    
 
+    valor_pedido = sum(item["Valor (R$)"] for item in st.session_state["carrinho"])
+    
+
+    caixa_carrinho = st.container(height=350)
     
     with caixa_carrinho:
         if len(st.session_state["carrinho"]) == 0:
@@ -460,6 +464,7 @@ with col2:
                 st.write(f"R$ {item['Valor (R$)']:.2f}")
                 st.divider()
                 st.subheader(f"Total: R$ {valor_pedido:.2f}")
+                
 
         for i, item in enumerate(st.session_state["carrinho"]):
             c1, c2, c3, c4 = st.columns([3, 2, 2, 1])
