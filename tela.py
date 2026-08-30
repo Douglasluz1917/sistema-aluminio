@@ -443,7 +443,7 @@ with col_btn2:
  
         
         
-peso_pedido = sum(linha["Peso (kg)"] for linha in st.session_state["carrinho"])
+peso_pedido = sum(linha.get("Peso (kg)", 0.0) for linha in st.session_state["carrinho"])
 valor_pedido = sum(linha["Valor (R$)"] for linha in st.session_state["carrinho"])
         
 st.info(f"**PESO TOTAL:** {peso_pedido:.3f} kg")
