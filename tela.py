@@ -419,15 +419,21 @@ with col2:
 
                     st.write("---") 
                     col_btn1, col_btn2 = st.columns(2)
+    
+
     with col_btn1:
         if st.button("🗑️ Limpar Tudo", use_container_width=True):
             st.session_state["carrinho"] = []
             st.rerun()
             with col_btn2:
                 pdf_pronto = criar_pdf(st.session_state["carrinho"], valor_pedido)
-            st.download_button("🖨️ Imprimir PDF", data=pdf_pronto, file_name="Orcamento.pdf", mime="application/pdf", use_container_width=True)
-                             
-
+        st.download_button(
+            label="🖨️ Imprimir PDF", 
+            data=pdf_pronto, 
+            file_name="Orcamento.pdf", 
+            mime="application/pdf", 
+            use_container_width=True
+        )
         
     peso_pedido = sum(linha["Peso (kg)"] for linha in st.session_state["carrinho"])
     valor_pedido = sum(linha["Valor (R$)"] for linha in st.session_state["carrinho"])
