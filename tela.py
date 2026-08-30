@@ -425,8 +425,9 @@ with col2:
         if st.button("🗑️ Limpar Tudo", use_container_width=True):
             st.session_state["carrinho"] = []
             st.rerun()
-            with col_btn2:
-                pdf_pronto = criar_pdf(st.session_state["carrinho"], valor_pedido)
+            
+    with col_btn2:
+        pdf_pronto = criar_pdf(st.session_state["carrinho"], valor_pedido)
         st.download_button(
             label="🖨️ Imprimir PDF", 
             data=pdf_pronto, 
