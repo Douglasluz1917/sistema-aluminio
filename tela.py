@@ -126,11 +126,11 @@ with col1:
             
             if tamanho_corte == 6:
                 qtd_pecas = st.number_input("Quantidade de barras (6m):", min_value=1, step=1)
-            else:
+        else:
                 qtd_pecas = 1
                 st.info(f"Venda de 1 unidade do corte de {tamanho_corte}m.")
             
-            if st.button("Adicionar Cantoneira", key="btn_cantoneira"):
+        if st.button("Adicionar Cantoneira", key="btn_cantoneira"):
                 preco_6m = estoque_cantoneiras[cantoneira]
                 preco_proporcional = (preco_6m / 6) * tamanho_corte
                 
