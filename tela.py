@@ -417,7 +417,8 @@ with col2:
                     st.session_state["carrinho"].pop(i)
                     st.rerun()
 
-                    st.write("---") col_btn1, col_btn2 = st.columns(2)
+                    st.write("---") 
+                    col_btn1, col_btn2 = st.columns(2)
     with col_btn1:
         if st.button("🗑️ Limpar Tudo", use_container_width=True):
             st.session_state["carrinho"] = []
