@@ -315,10 +315,18 @@ with col1:
         horizontal=True
     )
 if tipo_venda == "Perfis (Por Peso)":
-        perfil = st.selectbox("Escolha o Perfil:", list(estoque_perfis.keys()))
-        cor = st.selectbox("Escolha a Cor:", ["Branco", "Fosco", "Preto", "Bronze"])
-        metros = st.number_input("Quantos metros o cliente vai querer?", min_value=0.0)
+    
+        col_a, col_b, col_c = st.columns(3)
         
+        with col_a:
+            perfil = st.selectbox("Escolha o Perfil:", list(estoque_perfis.keys()))
+        with col_b:
+            cor = st.selectbox("Escolha a Cor:", ["Branco", "Fosco", "Preto", "Bronze"])
+        with col_c:
+            metros = st.number_input("Quantos metros o cliente vai querer?", min_value=0.0)
+        
+        
+        st.write("") 
         if st.button("Adicionar ao Orçamento", key="btn_perfil"):
             peso_metro = estoque_perfis[perfil]
             
