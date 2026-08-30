@@ -148,7 +148,8 @@ with col2:
                 if st.button("❌", key=f"remover_{i}"):
                     st.session_state["carrinho"].pop(i)
                     st.rerun()
-                    st.write("---"
+
+                    st.write("---") 
                              
 
         
