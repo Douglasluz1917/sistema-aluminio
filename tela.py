@@ -4,12 +4,15 @@ from fpdf import FPDF
 from datetime import datetime
 import os
 
+# --- CONFIGURAÇÃO DA PÁGINA ---
 st.set_page_config(page_title="Orçamento AF Alumínio", layout="wide", initial_sidebar_state="expanded")
 st.markdown("""
     <style>
         .block-container { padding-top: 1rem; padding-bottom: 2rem; }
     </style>
 """, unsafe_allow_html=True)
+
+# --- FUNÇÃO DO PDF (COM ACENTOS) ---
 def criar_pdf(carrinho, valor_total):
     pdf = FPDF()
     pdf.add_page()
@@ -291,36 +294,34 @@ estoque_perfis = {
 
         
          }
+# --- INICIALIZAÇÃO DO CARRINHO ---
 if "carrinho" not in st.session_state:
     st.session_state["carrinho"] = []
 
+# --- BARRA LATERAL: CARRINHO E FECHAMENTO ---
 with st.sidebar:
-
-
     st.header("🛒 Orçamento Atual")
     valor_pedido = sum(item.get("Valor (R$)", 0.0) for item in st.session_state["carrinho"])
     st.markdown(f"<h3 style='color: #2e7d32; margin-top: 0;'>Total: R$ {valor_pedido:.2f}</h3>", unsafe_allow_html=True)
     
-
+    # Carrinho com visual clean
     if len(st.session_state["carrinho"]) == 0:
         st.info("Nenhum item adicionado.")
     else:
         for i, item in enumerate(st.session_state["carrinho"]):
             col_info, col_del = st.columns([5, 1])
             with col_info:
-                
                 st.markdown(f"<div style='font-size: 14px; margin-bottom: -10px;'><b>{item.get('Perfil', '')}</b> ({item.get('Cor', '')})</div>", unsafe_allow_html=True)
                 st.markdown(f"<div style='font-size: 13px; color: gray;'>{item.get('Metros', '')} | <b>R$ {item.get('Valor (R$)', 0.0):.2f}</b></div>", unsafe_allow_html=True)
             with col_del:
                 if st.button("❌", key=f"del_{i}", help="Remover"):
                     st.session_state["carrinho"].pop(i)
                     st.rerun()
-            
             st.markdown("<hr style='margin-top: 5px; margin-bottom: 5px; opacity: 0.3;'/>", unsafe_allow_html=True)
 
     st.write("")
     
-    
+    # --- TEXTO DO WHATSAPP ---
     texto_whatsapp = f"*ORÇAMENTO - AF ALUMÍNIO*\n\n"
     for item in st.session_state["carrinho"]:
         texto_whatsapp += f"▪️ {item.get('Perfil', '')} ({item.get('Cor', '')}) - {item.get('Metros', '')}\n"
@@ -340,18 +341,18 @@ with st.sidebar:
         st.download_button("🖨️ PDF", data=pdf_pronto, file_name="Orcamento.pdf", mime="application/pdf", use_container_width=True)
         
     with col_b3:
-        # Botão do Whats ajustado para o mesmo tamanho dos botões nativos
+        # Botão do Whats desenhado para ficar exatamente do tamanho dos outros
         st.markdown(f"""
             <a href="{link_whats}" target="_blank" style="display: flex; align-items: center; justify-content: center; background-color: #25D366; color: white; height: 38px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 500;">
                 📱 Whats
             </a>
         """, unsafe_allow_html=True)
 
-
+# --- TELA PRINCIPAL: LANÇAMENTO DE PRODUTOS ---
+col_logo, col_titulo = st.columns([1, 6])
 with col_logo:
     if os.path.exists("logo.png"):
         st.image("logo.png", width=130)
-        
 with col_titulo:
     st.title("Sistema de Orçamentos")
 st.divider()
