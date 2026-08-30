@@ -110,7 +110,7 @@ estoque_perfis = {
         "25 001": 1.650/6,
 
         
-     }
+         }
 
 col1, col2 = st.columns([1, 1.5])
 
@@ -146,7 +146,7 @@ with col1:
             st.session_state["carrinho"].append(item)
             st.rerun()
             
-    elif tipo_venda == "Produtos por Peça (Cantoneiras, VENEZIANA VAZADA)":
+    elif tipo_venda == "Produtos por Peça (Cantoneiras, VZ)":
         produto_peca = st.selectbox("Escolha o Produto:", list(estoque_pecas.keys()))
         cor_peca = st.selectbox("Escolha a Cor:", ["Branco", "Fosco", "Preto", "Bronze"], key="cor_peca")
         tamanho_corte = st.selectbox("Tamanho da peça (metros):", [6, 4, 3, 2])
