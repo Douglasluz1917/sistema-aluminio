@@ -168,7 +168,9 @@ estoque_acessorios = {
    "TRANQUETA MAX AR": 9.00,
    "U POLICARBONATO": 65.00,
    "VEDA CALHA": 18.00,
-   "Z PANORAMICO": 4.00
+   "Z PANORAMICO": 4.00,
+   "SEREGEL 5X5 ROLO 50 METROS": 35.00,
+   
 
 }
 
