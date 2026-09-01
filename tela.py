@@ -377,7 +377,7 @@ if tipo_venda == "Perfis (Por Peso)":
     
     if st.button("Adicionar Perfil", type="primary"):
         peso_metro = estoque_perfis[perfil]
-        preco_kg = 50.00 if cor in ["Preto", "Bronze"] else 45.00
+        preco_kg = 52.00 if cor in ["Preto", "Bronze"] else 47.00
         peso_total = metros * peso_metro
         st.session_state["carrinho"].append({"Perfil": perfil, "Cor": cor, "Metros": f"{metros} m", "Peso (kg)": round(peso_total, 3), "Valor (R$)": round(peso_total * preco_kg, 2)})
         st.rerun()
